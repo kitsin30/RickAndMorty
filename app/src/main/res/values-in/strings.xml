@@ -5,4 +5,9 @@
     <!-- navbar -->
     <string name="character">Karakter</string>
     <string name="location">Lokasi</string>
+
+    <!-- detail -->
+    <string name="character_title">Karakter</string>
+    <string name="created_at">Dibuat</string>
+    <string name="input_location">Masukan lokasi:</string>
 </resources>

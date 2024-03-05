@@ -4,6 +4,10 @@
     <!-- navbar -->
     <string name="character">Character</string>
     <string name="location">Location</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- detail -->
+    <string name="character_title">Character</string>
+    <string name="created_at">Created at</string>
+    <string name="input_location">Input location:</string>
+
 </resources>

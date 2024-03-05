@@ -1,6 +1,8 @@
 package com.sin.rickandmorty.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sin.rickandmorty.R;
 import com.sin.rickandmorty.response.CharacterDetailResponse;
-import com.sin.rickandmorty.response.CharacterResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,6 +50,21 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         holder.tvCharaStatus.setText(characterDetailResponses.get(position).getStatus());
 
         Picasso.get().load(characterDetailResponses.get(position).getImage()).into(holder.ivCharacter);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CharacterDetailActivity.class);
+                intent.putExtra("image_chara", characterDetailResponses.get(position).getImage());
+                intent.putExtra("name", characterDetailResponses.get(position).getName());
+                intent.putExtra("gender", characterDetailResponses.get(position).getGender());
+                intent.putExtra("status", characterDetailResponses.get(position).getStatus());
+                intent.putExtra("species", characterDetailResponses.get(position).getSpecies());
+                intent.putExtra("origin", characterDetailResponses.get(position).getCharacterOrigin().getOriginName());
+                intent.putExtra("created", characterDetailResponses.get(position).getCreated());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -60,9 +76,7 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
 
         View viewLine;
         ImageView ivCharacter;
-        TextView tvCharaName;
-        TextView tvCharaGender;
-        TextView tvCharaStatus;
+        TextView tvCharaName, tvCharaGender, tvCharaStatus;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
