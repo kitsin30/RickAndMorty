@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RickAndMorty</string>
+
+    <!-- navbar -->
+    <string name="character">Karakter</string>
+    <string name="location">Lokasi</string>
+</resources>
