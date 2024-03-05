@@ -16,7 +16,6 @@ public class LocationFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static LocationFragment newInstance() {
         LocationFragment fragment = new LocationFragment();
         return fragment;
