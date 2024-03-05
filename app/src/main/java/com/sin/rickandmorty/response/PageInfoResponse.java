@@ -1,10 +1,16 @@
 package com.sin.rickandmorty.response;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PageInfoResponse {
 
+    @SerializedName("count")
     private int count;
+    @SerializedName("pages")
     private int page;
+    @SerializedName("next")
     private String next;
+    @SerializedName("prev")
     private String prev;
 
     public int getCount() {

@@ -1,20 +1,34 @@
 package com.sin.rickandmorty.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class CharacterDetailResponse {
 
+    @SerializedName("id")
     private int id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("status")
     private String status;
+    @SerializedName("species")
     private String species;
+    @SerializedName("type")
     private String type;
+    @SerializedName("gender")
     private String gender;
+    @SerializedName("origin")
     private CharacterOriginResponse characterOrigin;
+    @SerializedName("location")
     private CharacterLocationResponse characterLocation;
+    @SerializedName("image")
     private String image;
+    @SerializedName("episode")
     private ArrayList<String> episode;
+    @SerializedName("url")
     private String url;
+    @SerializedName("created")
     private String created;
 
     public int getId() {

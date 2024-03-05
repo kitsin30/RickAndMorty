@@ -1,8 +1,12 @@
 package com.sin.rickandmorty.response;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CharacterLocationResponse {
 
+    @SerializedName("name")
     private String locationName;
+    @SerializedName("url")
     private String url;
 
     public String getLocationName() {

@@ -1,8 +1,12 @@
 package com.sin.rickandmorty.response;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CharacterOriginResponse {
 
+    @SerializedName("name")
     private String originName;
+    @SerializedName("url")
     private String url;
 
     public String getOriginName() {
