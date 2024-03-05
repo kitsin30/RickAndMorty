@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/character"
+        android:id="@+id/character_menu"
         android:title="@string/character"
         android:icon="@drawable/character_icon"/>
     <item
-        android:id="@+id/location"
+        android:id="@+id/location_menu"
         android:title="@string/location"
         android:icon="@drawable/location_icon"/>
 </menu>
