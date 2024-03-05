@@ -2,15 +2,18 @@ package com.sin.rickandmorty.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sin.rickandmorty.R;
 import com.sin.rickandmorty.controller.CharacterDetailController;
+import com.sin.rickandmorty.response.LocationDataResponse;
 import com.squareup.picasso.Picasso;
 
 public class CharacterDetailActivity extends AppCompatActivity {
@@ -76,5 +79,23 @@ public class CharacterDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void validateLocation(LocationDataResponse locationDataResponse){
+        int idx = -1;
+        if(locationDataResponse.getLocationResult().size() > 0){
+            for(int i = 0; i<locationDataResponse.getLocationResult().size(); i++){
+                if(locationDataResponse.getLocationResult().get(i).equals(etLocation.getText().toString())){
+                    idx = i;
+                    break;
+                }
+            }
+        } else{
+            Toast.makeText(this, "wrong location", Toast.LENGTH_LONG).show();
+        }
 
+        if(idx==-1){
+            Toast.makeText(this, "wrong location", Toast.LENGTH_LONG).show();
+        } else{
+            SharedPreferences sharedPreferences;
+        }
+    }
 }

@@ -25,7 +25,7 @@ public class CharacterDetailController {
         Client.getInstance().getLocation(name).enqueue(new Callback<LocationDataResponse>() {
             @Override
             public void onResponse(Call<LocationDataResponse> call, Response<LocationDataResponse> response) {
-
+                mActivity.validateLocation(response.body());
             }
 
             @Override
