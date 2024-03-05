@@ -20,8 +20,8 @@ public class CharacterListController {
         this.mContext = context;
     }
 
-    public void getCharacterList(){
-        Client.getInstance().getCharacter("1").enqueue(new Callback<CharacterResponse>() {
+    public void getCharacterList(String num){
+        Client.getInstance().getCharacter(num).enqueue(new Callback<CharacterResponse>() {
             @Override
             public void onResponse(Call<CharacterResponse> call, Response<CharacterResponse> response) {
                 CharacterResponse characterResponse = response.body();

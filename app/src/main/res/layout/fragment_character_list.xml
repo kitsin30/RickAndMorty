@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.CharacterListFragment">
+    tools:context=".view.CharacterListFragment"
+    android:id="@+id/nsv_chara_list">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,12 +20,14 @@
 
         <EditText
             android:id="@+id/et_paging"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/rv_character_list"
-            android:text="testing"
-            android:textSize="14sp"/>
+            android:hint="paging"
+            android:inputType="number"
+            android:textSize="18sp"
+            android:textAlignment="center"/>
 
     </RelativeLayout>
 
