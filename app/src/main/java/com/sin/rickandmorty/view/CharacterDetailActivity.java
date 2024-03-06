@@ -38,6 +38,7 @@ public class CharacterDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_detail);
 
@@ -101,6 +102,7 @@ public class CharacterDetailActivity extends AppCompatActivity {
 
         if(locationResponse == null){
             etLocation.setText("");
+            beforeSearchLocationName = "";
             return;
         }
 
@@ -120,8 +122,10 @@ public class CharacterDetailActivity extends AppCompatActivity {
 
         if(idxChara == -1){
             etLocation.setText("");
+            beforeSearchLocationName = "";
         } else{
             etLocation.setText(locationResponse.getLocationCharaDataResponseArrayList().get(idxLocation).getLocationName());
+            beforeSearchLocationName = locationResponse.getLocationCharaDataResponseArrayList().get(idxLocation).getLocationName();
         }
 
     }
@@ -207,7 +211,8 @@ public class CharacterDetailActivity extends AppCompatActivity {
                     beforeSearchLocation(locationResponse);
                 }
 
-                Toast.makeText(this, R.string.already_here, Toast.LENGTH_LONG).show();
+                beforeSearchLocationName = locationName;
+                Toast.makeText(this, R.string.success, Toast.LENGTH_LONG).show();
 
             }
         }
