@@ -9,5 +9,8 @@
     <string name="character_title">Character</string>
     <string name="created_at">Created at</string>
     <string name="input_location">Input location:</string>
+    <string name="wrong_location">Wrong Location</string>
+    <string name="already_here">Location already here</string>
+    <string name="success">Success add location</string>
 
 </resources>

@@ -146,6 +146,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp"
         android:textColor="@color/black"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:inputType="text"
+        android:maxLines="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

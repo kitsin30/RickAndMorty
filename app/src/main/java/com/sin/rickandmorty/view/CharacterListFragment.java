@@ -51,6 +51,12 @@ public class CharacterListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        etPaging.setText("1");
+    }
+
     private void init(View view) {
         rvCharacterList = view.findViewById(R.id.rv_character_list);
         nsvCharaList = view.findViewById(R.id.nsv_chara_list);

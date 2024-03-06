@@ -1,6 +1,7 @@
 package com.sin.rickandmorty.controller;
 
 import android.content.Context;
+import android.location.Location;
 import android.widget.Toast;
 
 import com.sin.rickandmorty.connection.Client;
@@ -25,7 +26,8 @@ public class CharacterDetailController {
         Client.getInstance().getLocation(name).enqueue(new Callback<LocationDataResponse>() {
             @Override
             public void onResponse(Call<LocationDataResponse> call, Response<LocationDataResponse> response) {
-                mActivity.validateLocation(response.body());
+                LocationDataResponse locationDataResponse = response.body();
+                mActivity.validateLocation(locationDataResponse);
             }
 
             @Override

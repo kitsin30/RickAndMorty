@@ -6,12 +6,16 @@ public class LocationResponse {
 
     ArrayList<LocationCharaDataResponse> locationCharaDataResponseArrayList;
 
+    public LocationResponse() {
+        this.locationCharaDataResponseArrayList = new ArrayList<>();
+    }
+
     public ArrayList<LocationCharaDataResponse> getLocationCharaDataResponseArrayList() {
         return locationCharaDataResponseArrayList;
     }
 
-    public void setLocationCharaDataResponseArrayList(ArrayList<LocationCharaDataResponse> locationCharaDataResponseArrayList) {
-        this.locationCharaDataResponseArrayList = locationCharaDataResponseArrayList;
+    public void setLocationCharaDataResponseArrayList(LocationCharaDataResponse locationCharaDataResponseArrayList) {
+        this.locationCharaDataResponseArrayList.add(locationCharaDataResponseArrayList);
     }
 
 }

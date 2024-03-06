@@ -11,9 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.sin.rickandmorty.R;
+import com.sin.rickandmorty.SharedPref;
 import com.sin.rickandmorty.controller.CharacterDetailController;
+import com.sin.rickandmorty.response.CharacterInLocationResponse;
+import com.sin.rickandmorty.response.LocationCharaDataResponse;
 import com.sin.rickandmorty.response.LocationDataResponse;
+import com.sin.rickandmorty.response.LocationResponse;
 import com.squareup.picasso.Picasso;
 
 public class CharacterDetailActivity extends AppCompatActivity {
@@ -24,7 +29,12 @@ public class CharacterDetailActivity extends AppCompatActivity {
 
     private String charaImage, charaName, charaGender, charaStatus, charaSpecies, charaOrigin, charaDate, charaTime, charaCreated;
 
+    private String locationName;
+    private String beforeSearchLocationName;
+
     private CharacterDetailController mController;
+
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,8 @@ public class CharacterDetailActivity extends AppCompatActivity {
 
     private void init(){
         mController = new CharacterDetailController(this, this.getApplicationContext());
+
+        pref = getSharedPreferences(SharedPref.PREF, MODE_PRIVATE);
 
         ivChara = (ImageView) findViewById(R.id.iv_chara);
         tvCharaName = (TextView) findViewById(R.id.tv_chara_name);
@@ -58,6 +70,8 @@ public class CharacterDetailActivity extends AppCompatActivity {
         charaDate = charaCreated.substring(0,10);
         charaTime = charaCreated.substring(11,19);
 
+        setLocation();
+
         Picasso.get().load(charaImage).into(ivChara);
         tvCharaName.setText(charaName);
         tvCharaGender.setText(charaGender);
@@ -71,7 +85,8 @@ public class CharacterDetailActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    mController.getLocation(etLocation.getText().toString());
+                    locationName = etLocation.getText().toString();
+                    mController.getLocation(locationName);
                     return true;
                 }
                 return false;
@@ -79,23 +94,158 @@ public class CharacterDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void setLocation(){
+        Gson gson = new Gson();
+        String json = pref.getString(SharedPref.LOCATION, "");
+        LocationResponse locationResponse = gson.fromJson(json, LocationResponse.class);
+
+        if(locationResponse == null){
+            etLocation.setText("");
+            return;
+        }
+
+        int idxLocation = -1;
+        int idxChara = -1;
+
+        for(int i = 0; i<locationResponse.getLocationCharaDataResponseArrayList().size(); i++){
+            for (int j = 0; j < locationResponse.getLocationCharaDataResponseArrayList().get(i).getCharacterInLocationResponses().size(); j++) {
+                if (locationResponse.getLocationCharaDataResponseArrayList().get(i).
+                        getCharacterInLocationResponses().get(j).getName().equals(charaName)) {
+                    idxChara = j;
+                    idxLocation = i;
+                    break;
+                }
+            }
+        }
+
+        if(idxChara == -1){
+            etLocation.setText("");
+        } else{
+            etLocation.setText(locationResponse.getLocationCharaDataResponseArrayList().get(idxLocation).getLocationName());
+        }
+
+    }
+
     public void validateLocation(LocationDataResponse locationDataResponse){
         int idx = -1;
-        if(locationDataResponse.getLocationResult().size() > 0){
+        if(locationDataResponse == null){
+            Toast.makeText(this, R.string.wrong_location, Toast.LENGTH_LONG).show();
+        } else if(locationDataResponse.getLocationResult().size() > 0){
             for(int i = 0; i<locationDataResponse.getLocationResult().size(); i++){
-                if(locationDataResponse.getLocationResult().get(i).equals(etLocation.getText().toString())){
+                if(locationDataResponse.getLocationResult().get(i).getName().equals(locationName)){
                     idx = i;
                     break;
                 }
             }
         } else{
-            Toast.makeText(this, "wrong location", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.wrong_location, Toast.LENGTH_LONG).show();
         }
 
         if(idx==-1){
-            Toast.makeText(this, "wrong location", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.wrong_location, Toast.LENGTH_LONG).show();
         } else{
-            SharedPreferences sharedPreferences;
+
+            Gson gson = new Gson();
+            String json = pref.getString(SharedPref.LOCATION, "");
+            LocationResponse locationResponse = gson.fromJson(json, LocationResponse.class);
+
+            if(locationResponse == null){
+                locationResponse = new LocationResponse();
+
+                LocationCharaDataResponse locationCharaDataResponse = new LocationCharaDataResponse(locationName);
+
+                CharacterInLocationResponse characterInLocationResponse = new CharacterInLocationResponse(charaName, charaStatus, charaGender, charaImage);
+
+                locationCharaDataResponse.setCharacterInLocationResponses(characterInLocationResponse);
+
+                locationResponse.setLocationCharaDataResponseArrayList(locationCharaDataResponse);
+
+                editPref(locationResponse);
+
+            } else{
+                int idxLocation = -1;
+                int idxChara = -1;
+
+                for(int i = 0; i<locationResponse.getLocationCharaDataResponseArrayList().size(); i++){
+                    if(locationResponse.getLocationCharaDataResponseArrayList().get(i).getLocationName().equals(locationName)) {
+                        idxLocation = i;
+                        for (int j = 0; j < locationResponse.getLocationCharaDataResponseArrayList().get(i).getCharacterInLocationResponses().size(); j++) {
+
+                            if (locationResponse.getLocationCharaDataResponseArrayList().get(i).
+                                    getCharacterInLocationResponses().get(j).getName().equals(charaName)) {
+                                idxChara = j;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if(idxLocation == -1){
+                    LocationCharaDataResponse locationCharaDataResponse = new LocationCharaDataResponse(locationName);
+
+                    CharacterInLocationResponse characterInLocationResponse = new CharacterInLocationResponse(charaName, charaStatus, charaGender, charaImage);
+
+                    locationCharaDataResponse.setCharacterInLocationResponses(characterInLocationResponse);
+
+                    locationResponse.setLocationCharaDataResponseArrayList(locationCharaDataResponse);
+
+                    editPref(locationResponse);
+                } else{
+                    if(idxChara != -1){
+                        Toast.makeText(this, R.string.already_here, Toast.LENGTH_LONG).show();
+                    } else{
+                        CharacterInLocationResponse characterInLocationResponse = new CharacterInLocationResponse(charaName, charaStatus, charaGender, charaImage);
+
+                        locationResponse.getLocationCharaDataResponseArrayList().get(idxLocation).setCharacterInLocationResponses(characterInLocationResponse);
+
+                        editPref(locationResponse);
+                    }
+                }
+
+                if(beforeSearchLocationName.length() > 0){
+                    beforeSearchLocation(locationResponse);
+                }
+
+                Toast.makeText(this, R.string.already_here, Toast.LENGTH_LONG).show();
+
+            }
         }
+    }
+
+    private void editPref(LocationResponse locationResponse){
+        //insert to sharedpref
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String jsonInsert = gson.toJson(locationResponse);
+        editor.putString(SharedPref.LOCATION, jsonInsert);
+        editor.commit();
+    }
+
+    private void beforeSearchLocation(LocationResponse locationResponse){
+        int idxLocation = -1;
+        int idxChara = -1;
+
+        for(int i = 0; i<locationResponse.getLocationCharaDataResponseArrayList().size(); i++){
+            if(locationResponse.getLocationCharaDataResponseArrayList().get(i).getLocationName().equals(beforeSearchLocationName)) {
+                idxLocation = i;
+                for (int j = 0; j < locationResponse.getLocationCharaDataResponseArrayList().get(i).getCharacterInLocationResponses().size(); j++) {
+
+                    if (locationResponse.getLocationCharaDataResponseArrayList().get(i).
+                            getCharacterInLocationResponses().get(j).getName().equals(charaName)) {
+                        idxChara = j;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        if(idxChara != -1){
+            locationResponse.getLocationCharaDataResponseArrayList().get(idxLocation).getCharacterInLocationResponses().remove(idxChara);
+
+            editPref(locationResponse);
+        }
+
     }
 }

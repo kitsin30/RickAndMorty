@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 public class LocationCharaDataResponse {
 
-    String locationName;
+    private String locationName;
 
-    ArrayList<CharacterDetailResponse> characterOnThatPositionArrayList;
+    private ArrayList<CharacterInLocationResponse> characterInLocationResponses;
+
+    public LocationCharaDataResponse(String locationName) {
+        this.locationName = locationName;
+        this.characterInLocationResponses = new ArrayList<>();
+    }
 
     public String getLocationName() {
         return locationName;
@@ -16,11 +21,11 @@ public class LocationCharaDataResponse {
         this.locationName = locationName;
     }
 
-    public ArrayList<CharacterDetailResponse> getCharacterOnThatPositionArrayList() {
-        return characterOnThatPositionArrayList;
+    public ArrayList<CharacterInLocationResponse> getCharacterInLocationResponses() {
+        return characterInLocationResponses;
     }
 
-    public void setCharacterOnThatPositionArrayList(ArrayList<CharacterDetailResponse> characterOnThatPositionArrayList) {
-        this.characterOnThatPositionArrayList = characterOnThatPositionArrayList;
+    public void setCharacterInLocationResponses(CharacterInLocationResponse characterInLocationResponses) {
+        this.characterInLocationResponses.add(characterInLocationResponses);
     }
 }

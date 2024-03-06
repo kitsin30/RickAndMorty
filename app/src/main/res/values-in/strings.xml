@@ -10,4 +10,7 @@
     <string name="character_title">Karakter</string>
     <string name="created_at">Dibuat</string>
     <string name="input_location">Masukan lokasi:</string>
+    <string name="wrong_location">Lokasi Salah</string>
+    <string name="already_here">Lokasi sudah disini</string>
+    <string name="success">Sukses menambahkan lokasi</string>
 </resources>
