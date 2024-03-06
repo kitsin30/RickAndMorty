@@ -5,32 +5,28 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sin.rickandmorty.R;
-import com.sin.rickandmorty.response.CharacterDetailResponse;
-import com.sin.rickandmorty.response.LocationCharaDataResponse;
-import com.sin.rickandmorty.response.LocationResponse;
+import com.sin.rickandmorty.response.CharacterInLocationResponse;
 
 import java.util.ArrayList;
 
-public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ItemViewHolder>{
+public class LocationCharaAdapter extends RecyclerView.Adapter<LocationCharaAdapter.ItemViewHolder>{
 
     Context context;
-    private ArrayList<LocationCharaDataResponse> locationCharaDataResponseArrayList;
+    private ArrayList<CharacterInLocationResponse> characterInLocationResponses;
 
-    public LocationListAdapter(Context context, ArrayList<LocationCharaDataResponse> locationCharaDataResponseArrayList) {
+    public LocationCharaAdapter(Context context, ArrayList<CharacterInLocationResponse> characterInLocationResponses) {
         this.context = context;
-        this.locationCharaDataResponseArrayList = locationCharaDataResponseArrayList;
+        this.characterInLocationResponses = characterInLocationResponses;
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_list_item, parent, false);
 
         return new ItemViewHolder(v);
@@ -38,29 +34,18 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-
         if(position == 0){
             holder.viewLine.setVisibility(View.GONE);
         } else{
             holder.viewLine.setVisibility(View.VISIBLE);
         }
 
-        holder.tvLocationName.setText(locationCharaDataResponseArrayList.get(position).getLocationName());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, LocationDetailActivity.class);
-                intent.putExtra("location_title", locationCharaDataResponseArrayList.get(position).getLocationName());
-                view.getContext().startActivity(intent);
-            }
-        });
-
+        holder.tvLocationName.setText(characterInLocationResponses.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return locationCharaDataResponseArrayList.size();
+        return characterInLocationResponses.size();
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
