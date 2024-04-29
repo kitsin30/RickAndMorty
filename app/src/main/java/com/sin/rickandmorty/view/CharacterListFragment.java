@@ -85,6 +85,7 @@ public class CharacterListFragment extends Fragment {
         rvCharacterList.setLayoutManager(linearLayoutManager);
         CharacterListAdapter characterListAdapter = new CharacterListAdapter(this.getActivity().getApplicationContext(), characterResponse.getCharacterDetailResponsesList());
         rvCharacterList.setAdapter(characterListAdapter);
+        etPaging.setVisibility(View.VISIBLE);
     }
 
 }

@@ -61,8 +61,8 @@ public class LocationFragment extends Fragment {
             rvLocationList.setVisibility(View.GONE);
         } else{
             rvLocationList.setVisibility(View.VISIBLE);
+            setLocationListAdapter();
         }
-        setLocationListAdapter();
     }
 
     void setLocationListAdapter(){
